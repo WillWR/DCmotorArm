@@ -26,33 +26,43 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     int m4state=0;
     int m5state=0;
 
-    TextView xValDisp;
-    TextView yValDisp;
-
     Sensor accelerometer;
     SensorManager sm;
 
+    //Text boxes for accelerometer Displays
+    TextView xValDisp = (TextView)findViewById(R.id.xValueDisp);
+    TextView yValDisp = (TextView)findViewById(R.id.yValueDisp);
+    //Motor 1 declarations
+    Button m1Close = (Button)findViewById(R.id.motor1Close);
+    Button m1Open = (Button)findViewById(R.id.motor1Open);
+    //Motor 2 declarations
+    Button m2Down = (Button)findViewById(R.id.motor2Down);
+    Button m2Up = (Button)findViewById(R.id.motor2Up);
+    //Motor 5 declarations
+    Button m5Left = (Button)findViewById(R.id.motor5Left);
+    Button m5Right = (Button)findViewById(R.id.motor5Right);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        /* SENSOR Manager */
         sm=(SensorManager)getSystemService(SENSOR_SERVICE);
         accelerometer=sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sm.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
-        //Text boxes for accelerometer Displays
-        TextView xValDisp = (TextView)findViewById(R.id.xValueDisp);
-        TextView yValDisp = (TextView)findViewById(R.id.yValueDisp);
-        //Motor 1 declarations
-        Button m1Close = (Button)findViewById(R.id.motor1Close);
-        Button m1Open = (Button)findViewById(R.id.motor1Open);
-        //Motor 2 declarations
-        Button m2Down = (Button)findViewById(R.id.motor2Down);
-        Button m2Up = (Button)findViewById(R.id.motor2Up);
-        //Motor 5 declarations
-        Button m5Left = (Button)findViewById(R.id.motor5Left);
-        Button m5Right = (Button)findViewById(R.id.motor5Right);
+        sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
 
         //EVENT LISTENERS
         //Motor 1 Close
@@ -130,6 +140,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -164,4 +195,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
 }
+
+
